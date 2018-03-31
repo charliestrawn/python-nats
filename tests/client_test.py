@@ -1,17 +1,5 @@
 import sys
-
-if sys.version_info >= (2, 7):
-     import unittest
-else:
-    import unittest2 as unittest
-
-import tornado.httpclient
-import tornado.concurrent
-import tornado.testing
-import tornado.gen
-import tornado.ioloop
-import tornado.iostream
-import tornado.tcpserver
+import unittest
 import subprocess
 import threading
 import tempfile
@@ -20,14 +8,23 @@ import json
 import socket
 import ssl
 import os
-
 from datetime import timedelta
 from collections import defaultdict as Hash
+
+import tornado.httpclient
+import tornado.concurrent
+import tornado.testing
+import tornado.gen
+import tornado.ioloop
+import tornado.iostream
+import tornado.tcpserver
+
 from nats.io import Client
 from nats.io.errors import *
 from nats.io.utils  import new_inbox, INBOX_PREFIX
 from nats.protocol.parser import *
 from nats import __lang__, __version__
+
 
 class Gnatsd(object):
 
@@ -129,6 +126,7 @@ class Gnatsd(object):
                if self.debug:
                     print("[\033[0;33mDEBUG\033[0;0m] Server listening on %d was stopped." % self.port)
 
+
 class Log():
      def __init__(self, debug=False):
           self.records = Hash(list)
@@ -138,6 +136,7 @@ class Log():
           if self.debug:
                print("[\033[0;33mDEBUG\033[0;0m] Message received: [{0} {1} {2}].".format(msg.subject, msg.reply, msg.data))
           self.records[msg.subject].append(msg)
+
 
 class ClientUtilsTest(unittest.TestCase):
 
@@ -940,6 +939,7 @@ class ClientTest(tornado.testing.AsyncTestCase):
           nc = Client()
           yield nc._process_msg(387, 'some-subject', 'some-reply', [0, 1, 2])
 
+
 class ClientAuthTest(tornado.testing.AsyncTestCase):
 
      def setUp(self):
@@ -1312,6 +1312,7 @@ class ClientAuthTest(tornado.testing.AsyncTestCase):
           with(self.assertRaises(ErrConnectionClosed)):
                yield nc.timed_request("hello", "world")
 
+
 class ClientTLSTest(tornado.testing.AsyncTestCase):
 
      def setUp(self):
@@ -1505,6 +1506,7 @@ class ClientTLSTest(tornado.testing.AsyncTestCase):
           self.assertTrue(c.error_cb_called)
           self.assertTrue(c.reconnected_cb_called)
 
+
 class ClientTLSCertsTest(tornado.testing.AsyncTestCase):
 
      def setUp(self):
@@ -1637,6 +1639,7 @@ class ClientTLSCertsTest(tornado.testing.AsyncTestCase):
                with self.assertRaises(NatsError):
                     yield c.nc.connect(**options)
 
+
 class ShortControlLineNATSServer(tornado.tcpserver.TCPServer):
      @tornado.gen.coroutine
      def handle_stream(self, stream, address):
@@ -1665,6 +1668,7 @@ class LargeControlLineNATSServer(tornado.tcpserver.TCPServer):
                     yield tornado.gen.sleep(1)
                except tornado.iostream.StreamClosedError:
                     break
+
 
 class ClientConnectTest(tornado.testing.AsyncTestCase):
 
