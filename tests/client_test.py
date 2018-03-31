@@ -254,7 +254,7 @@ class ClientTest(tornado.testing.AsyncTestCase):
           self.assertIn("host", info_keys)
           self.assertIn("port", info_keys)
           self.assertIn("auth_required", info_keys)
-          self.assertIn("ssl_required", info_keys)
+          self.assertIn("tls_required", info_keys)
           self.assertIn("max_payload", info_keys)
 
      @tornado.testing.gen_test(timeout=5)
