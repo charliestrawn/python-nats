@@ -15,7 +15,6 @@
 import socket
 import json
 import time
-import io
 import ssl
 import tornado.iostream
 import tornado.concurrent
@@ -33,39 +32,40 @@ from nats.io.utils  import *
 from nats.protocol.parser import *
 
 CONNECT_PROTO = b'{0} {1}{2}'
-PUB_PROTO     = b'{0} {1} {2} {3} {4}{5}{6}'
-SUB_PROTO     = b'{0} {1} {2} {3}{4}'
-UNSUB_PROTO   = b'{0} {1} {2}{3}'
+PUB_PROTO = b'{0} {1} {2} {3} {4}{5}{6}'
+SUB_PROTO = b'{0} {1} {2} {3}{4}'
+UNSUB_PROTO = b'{0} {1} {2}{3}'
 
-INFO_OP       = b'INFO'
-CONNECT_OP    = b'CONNECT'
-PUB_OP        = b'PUB'
-MSG_OP        = b'MSG'
-SUB_OP        = b'SUB'
-UNSUB_OP      = b'UNSUB'
-PING_OP       = b'PING'
-PONG_OP       = b'PONG'
-OK_OP         = b'+OK'
-ERR_OP        = b'-ERR'
-_CRLF_        = b'\r\n'
-_SPC_         = b' '
-_EMPTY_       = b''
+INFO_OP = b'INFO'
+CONNECT_OP = b'CONNECT'
+PUB_OP = b'PUB'
+MSG_OP = b'MSG'
+SUB_OP = b'SUB'
+UNSUB_OP = b'UNSUB'
+PING_OP = b'PING'
+PONG_OP = b'PONG'
+OK_OP = b'+OK'
+ERR_OP = b'-ERR'
+_CRLF_ = b'\r\n'
+_SPC_ = b' '
+_EMPTY_ = b''
 
-PING_PROTO    = b'{0}{1}'.format(PING_OP, _CRLF_)
-PONG_PROTO    = b'{0}{1}'.format(PONG_OP, _CRLF_)
+PING_PROTO = b'{0}{1}'.format(PING_OP, _CRLF_)
+PONG_PROTO = b'{0}{1}'.format(PONG_OP, _CRLF_)
 
 # Defaults
-DEFAULT_PING_INTERVAL     = 120 # seconds
-MAX_OUTSTANDING_PINGS     = 2
-MAX_RECONNECT_ATTEMPTS    = 60
-RECONNECT_TIME_WAIT       = 2   # seconds
-DEFAULT_CONNECT_TIMEOUT   = 2   # seconds
+DEFAULT_PING_INTERVAL = 120  # seconds
+MAX_OUTSTANDING_PINGS = 2
+MAX_RECONNECT_ATTEMPTS = 60
+RECONNECT_TIME_WAIT = 2   # seconds
+DEFAULT_CONNECT_TIMEOUT = 2   # seconds
 
-DEFAULT_READ_BUFFER_SIZE  = 1024 * 1024 * 10
+DEFAULT_READ_BUFFER_SIZE = 1024 * 1024 * 10
 DEFAULT_WRITE_BUFFER_SIZE = None
-DEFAULT_READ_CHUNK_SIZE   = 32768 * 2
-DEFAULT_PENDING_SIZE      = 1024 * 1024
-DEFAULT_MAX_PAYLOAD_SIZE  = 1048576
+DEFAULT_READ_CHUNK_SIZE = 32768 * 2
+DEFAULT_PENDING_SIZE = 1024 * 1024
+DEFAULT_MAX_PAYLOAD_SIZE = 1048576
+
 
 class Client(object):
   """
@@ -98,10 +98,10 @@ class Client(object):
     self._pending_size = 0
     self._loop = None
     self.stats = {
-      'in_msgs':    0,
-      'out_msgs':   0,
-      'in_bytes':   0,
-      'out_bytes':  0,
+      'in_msgs': 0,
+      'out_msgs': 0,
+      'in_bytes': 0,
+      'out_bytes': 0,
       'reconnects': 0,
       'errors_received': 0
     }
@@ -164,8 +164,8 @@ class Client(object):
       yield nc.connect({ 'servers': ['nats://hello:world@192.168.1.10:4222'] })
 
     """
-    self.options["servers"]  = servers
-    self.options["verbose"]  = verbose
+    self.options["servers"] = servers
+    self.options["verbose"] = verbose
     self.options["pedantic"] = pedantic
     self.options["name"] = name
     self.options["max_outstanding_pings"] = max_outstanding_pings
@@ -905,43 +905,40 @@ class Client(object):
           self._error_cb(e)
         yield self._unbind()
 
+
 class Subscription():
 
-  def __init__(self,
-               subject='',
-               queue='',
-               cb=None,
-               is_async=False,
-               future=None,
-               max_msgs=0,
-               ):
-    self.subject   = subject
-    self.queue     = queue
-    self.cb        = cb
-    self.future    = future
-    self.max_msgs  = max_msgs
-    self.is_async  = is_async
-    self.received = 0
+    def __init__(self,
+                 subject='',
+                 queue='',
+                 cb=None,
+                 is_async=False,
+                 future=None,
+                 max_msgs=0,):
+        self.subject = subject
+        self.queue = queue
+        self.cb = cb
+        self.future = future
+        self.max_msgs = max_msgs
+        self.is_async = is_async
+        self.received = 0
+
 
 class Msg(object):
 
-  def __init__(self,
-               subject='',
-               reply='',
-               data=b'',
-               sid=0,
-               ):
-    self.subject = subject
-    self.reply   = reply
-    self.data    = data
-    self.sid     = sid
+    def __init__(self, subject='', reply='', data=b'', sid=0,):
+        self.subject = subject
+        self.reply = reply
+        self.data = data
+        self.sid = sid
+
 
 class Srv(object):
-  """
-  Srv is a helper data structure to hold state of a server.
-  """
-  def __init__(self, uri):
-    self.uri = uri
-    self.reconnects = 0
-    self.last_attempt = None
-    self.did_connect = False
+    """
+    Srv is a helper data structure to hold state of a server.
+    """
+    def __init__(self, uri):
+        self.uri = uri
+        self.reconnects = 0
+        self.last_attempt = None
+        self.did_connect = False
