@@ -1,5 +1,5 @@
 import os
-from setuptools import setup, find_packages
+from setuptools import setup
 from nats import __version__
 
 this_dir = os.path.dirname(os.path.abspath(__file__))
@@ -10,7 +10,7 @@ setup(
     name='nats-client',
     version=__version__,
     description='NATS client for Python 2',
-    long_description='Tornado based Python client for NATS, a lightweight, high-performance cloud native messaging system',
+    long_description='Tornado based Python client for NATS, a lightweight, high-performance cloud native messaging system',  # noqa e501
     url='https://github.com/nats-io/python-nats',
     author='Waldemar Quevedo',
     author_email='wally@apcera.com',

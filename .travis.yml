@@ -12,8 +12,12 @@ before_install:
 
 before_script:
   - export PATH=$HOME/gnatsd:$PATH
-  
+
+install:
+  - pip install -r requirements_dev.txt
+
 script:
+  - flake8 --exclude=benchmark,examples,tests
   - ./script/test.sh
 
 notifications:

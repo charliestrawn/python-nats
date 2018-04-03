@@ -1,5 +1,6 @@
 .ropeproject
 .idea
+.vscode
 *.py[cod]
 
 # Packages
